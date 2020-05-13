@@ -1,0 +1,38 @@
+GET http://localhost:8080/api/config/3
+Accept: application/json
+
+###
+GET http://localhost:8080/api/config?environmentName=dev&key=sql_driver
+Accept: application/json
+
+###
+
+POST http://localhost:8080/api/app
+Content-Type: application/json
+
+{
+  "appCode": "member-core333",
+  "appDesc": "会员组核心项目22",
+  "appName": "会员组核心项目2233",
+  "admin": {
+    "adminId": 12
+  },
+  "environments": [
+    "dev",
+    "pro"
+  ]
+}
+
+###
+
+
+GET http://localhost:8080/api/app/1
+Accept: application/json
+
+###
+GET http://localhost:8080/api/app
+Accept: application/json
+
+###
+
+

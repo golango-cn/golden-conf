@@ -1,0 +1,52 @@
+syntax = "proto3";
+import "github.com/golango.cn/golden-conf/conf-proto/common/base.proto";
+import "admin.proto";
+
+
+package proto;
+
+service AppServer {
+  rpc GetApp (GetAppRequ) returns (GetAppResp) {}
+  rpc GetApps (GetAppsRequ) returns (GetAppsResp) {}
+  rpc CreateApp (CreateAppRequ) returns (CreateAppResp) {}
+}
+
+message App {
+  int64 appId = 1;
+  string appCode = 2;
+  string appDesc = 3;
+  string appName = 4;
+  Admin admin = 5;
+  int64 createAt = 6;
+  int64 updateAt = 7;
+}
+
+message GetAppRequ {
+  common.baseRequ baseRequ = 1;
+  int64 appId = 2;
+}
+
+message GetAppResp {
+  common.baseResp baseResp = 1;
+  App app = 2;
+}
+
+message GetAppsRequ {
+  common.baseRequ baseRequ = 1;
+}
+
+message GetAppsResp {
+  common.baseResp baseResp = 1;
+  repeated App apps = 2;
+}
+
+message CreateAppRequ {
+  common.baseRequ baseRequ = 1;
+  App app = 2;
+  repeated string environments = 3;
+}
+
+message CreateAppResp {
+  common.baseResp baseResp = 1;
+  int64 appId = 2;
+}

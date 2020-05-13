@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package common;
+
+message baseRequ {
+  int64 pageIndex = 1;
+  int64 pageSize = 2;
+}
+
+message baseResp {
+  bool isSuccess = 1;
+  string errorMessage = 2;
+  int64 totalCount = 3;
+}

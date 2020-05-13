@@ -1,0 +1,74 @@
+package main
+
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/golango.cn/golden-conf/conf-api/conf"
+	"github.com/golango.cn/golden-conf/conf-api/controller"
+	proto "github.com/golango.cn/golden-conf/conf-proto"
+	"github.com/micro/go-micro/v2/registry"
+	"github.com/micro/go-micro/v2/registry/etcd"
+	"github.com/micro/go-micro/v2/web"
+	"net/http"
+)
+
+func main() {
+
+	// 使用etcd注册
+	micReg := etcd.NewRegistry(registryOptions)
+
+	service := web.NewService(
+		//web.Name("go.micro.conf.api"),
+		web.Name("mu.micro.book.web.orders"),
+		web.Version("latest"),
+		web.Address(":8091"),
+		web.Registry(micReg),
+	)
+
+	if err := service.Init(); err != nil {
+		panic(err)
+	}
+
+	config := conf.New()
+	// 注册客户端
+	if err := config.Register("mu.micro.book.srv.orders", service,
+		func(name string, service web.Service, c *conf.Config) error {
+			server := proto.NewAppServerService(name, service.Options().Service.Client())
+			c.Services[name] = server
+			return nil
+		}); err != nil {
+		panic(err)
+
+	}
+
+	controller.Init()
+
+	//router := Router()
+	service.HandleFunc("/v1/order", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "hello")
+	})
+
+	if err := service.Run(); err != nil {
+		panic(err)
+	}
+}
+
+func Router() *gin.Engine {
+
+	router := gin.Default()
+	r := router.Group("/v1")
+
+	appController := controller.AppController{}
+
+	r.GET("/app", appController.Gets)
+	r.GET("/app/:appId", appController.Get)
+	r.POST("/app", appController.Post)
+
+	return router
+}
+
+func registryOptions(ops *registry.Options) {
+	host := "127.0.0.1"
+	port := 2379
+	ops.Addrs = []string{fmt.Sprintf("%s:%d", host, port)}
+}

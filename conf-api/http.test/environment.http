@@ -1,0 +1,15 @@
+POST http://localhost:8080/api/environment
+Content-Type: application/json
+
+{
+  "Environments": [
+    "stage"
+  ]
+}
+
+###
+GET http://localhost:8080/api/environment
+Accept: application/json
+
+###
+

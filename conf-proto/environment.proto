@@ -1,0 +1,33 @@
+syntax = "proto3";
+import "github.com/golango.cn/golden-conf/conf-proto/common/base.proto";
+
+package proto;
+
+service EnvironmentServer {
+  rpc GetEnvironments (GetEnvironmentsRequ) returns (GetEnvironmentsResp) {}
+  rpc CreateEnvironments(CreateEnvironmentsRequ) returns (CreateEnvironmentsResp) {}
+}
+
+message GetEnvironmentsRequ {
+  common.baseRequ baseRequ = 1;
+}
+
+message GetEnvironmentsResp {
+  common.baseResp baseResp = 1;
+  repeated Environment environments = 3;
+}
+
+message Environment {
+  int64 environmentID = 1;
+  string environmentName = 2;
+}
+
+message CreateEnvironmentsRequ {
+  common.baseRequ baseRequ = 1;
+  repeated string environments = 2;
+}
+
+
+message CreateEnvironmentsResp {
+  common.baseResp baseResp = 1;
+}

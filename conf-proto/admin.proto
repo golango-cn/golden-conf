@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package proto;
+
+message Admin {
+  int64 adminId = 1;
+  string adminName = 2;
+}

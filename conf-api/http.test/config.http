@@ -1,0 +1,64 @@
+
+### 获取记录
+GET http://localhost:8080/api/config
+Accept: application/json
+
+###
+
+
+### 创建
+POST http://localhost:8080/api/config
+Content-Type: application/json
+
+{
+  "appId": 1,
+  "appCode": "member-core",
+  "environmentName": "dev",
+  "key": "mssql",
+  "value": "sqlserver",
+  "memo": "testsss",
+  "adminId": 20
+}
+
+###
+
+
+### 发布
+POST http://localhost:8080/api/config/publish
+Content-Type: application/json
+
+{
+  "appConfigId": 2
+}
+
+###
+
+### 获取
+GET http://localhost:8080/api/config/2
+Content-Type: application/json
+
+
+### 获取历史
+GET http://localhost:8080/api/config/2/historys
+Content-Type: application/json
+
+
+### 回滚
+POST http://localhost:8080/api/config/rollback
+Content-Type: application/json
+
+{
+  "appConfigHistoryId": 1,
+  "adminId": 1
+}
+
+
+### 更新
+PUT http://localhost:8080/api/config/2
+Content-Type: application/json
+
+{
+  "value": "123321",
+  "memo": "测试备注",
+  "adminId": 20
+}

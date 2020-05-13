@@ -1,0 +1,114 @@
+syntax = "proto3";
+import "github.com/golango.cn/golden-conf/conf-proto/common/base.proto";
+import "admin.proto";
+
+package proto;
+
+service ConfigServer {
+  rpc GetConfig (GetConfigRequ) returns (GetConfigResp) {}
+  rpc GetAppConfigs (GetAppConfigsRequ) returns (GetAppConfigsResp) {}
+  rpc CreateAppConfig (CreateAppConfigRequ) returns (CreateAppConfigResp) {}
+  rpc UpdateAppConfig (UpdateAppConfigRequ) returns (UpdateAppConfigResp) {}
+  rpc GetAppConfigHistorys (GetAppConfigHistorysRequ) returns (GetAppConfigHistorysResp) {}
+  rpc RollbackConfig (RollbackConfigRequ) returns (RollbackConfigResp) {}
+  rpc PublicConfig (PublicConfigRequ) returns (PublicConfigResp) {}
+}
+
+message GetConfigRequ {
+  common.baseRequ baseRequ = 1;
+  int64 appConfigId = 2;
+}
+
+message GetConfigResp {
+  common.baseResp baseResp = 1;
+  AppConfig appConfig = 2;
+}
+
+message GetAppConfigsRequ {
+  common.baseRequ baseRequ = 1;
+  string key = 2;
+  string appCode = 3;
+  string environmentName = 4;
+}
+
+message GetAppConfigsResp {
+  common.baseResp baseResp = 1;
+  repeated AppConfig appConfigs = 2;
+}
+
+message CreateAppConfigRequ {
+  common.baseRequ baseRequ = 1;
+  AppConfig appConfig = 2;
+}
+
+message CreateAppConfigResp {
+  common.baseResp baseResp = 1;
+}
+
+message UpdateAppConfigRequ {
+  common.baseRequ baseRequ = 1;
+  AppConfig appConfig = 2;
+}
+
+message UpdateAppConfigResp {
+  common.baseResp baseResp = 1;
+}
+
+message GetAppConfigHistorysRequ {
+  common.baseRequ baseRequ = 1;
+  int64 appConfigId = 2;
+}
+
+message GetAppConfigHistorysResp {
+  common.baseResp baseResp = 1;
+  repeated AppConfigHistory appConfigHistorys = 2;
+}
+
+message RollbackConfigRequ {
+  common.baseRequ baseRequ = 1;
+  int64 appConfigHistoryId = 2;
+  int64 adminId = 3;
+}
+
+message RollbackConfigResp {
+  common.baseResp baseResp = 1;
+}
+
+message PublicConfigRequ {
+  common.baseRequ baseRequ = 1;
+  int64 appConfigId = 2;
+  int64 adminId = 3;
+}
+
+message PublicConfigResp {
+  common.baseResp baseResp = 1;
+}
+
+message AppConfig {
+  int64 appConfigId = 1;
+  int64 appId = 2;
+  string appCode = 3;
+  string environmentName = 4;
+  string key = 5;
+  string value = 6;
+  int64 status = 7;
+  string memo = 8;
+  Admin admin = 9;
+  int64 createAt = 10;
+  int64 updateAt = 11;
+}
+
+message AppConfigHistory {
+  int64 appConfigHistoryId = 1;
+  int64 appConfigId = 2;
+  int64 appId = 3;
+  string appCode = 4;
+  string environmentName = 5;
+  string key = 6;
+  string value = 7;
+  int64 status = 8;
+  string memo = 9;
+  Admin admin = 10;
+  int64 createAt = 11;
+  int64 updateAt = 12;
+}
